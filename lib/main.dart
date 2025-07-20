@@ -5,33 +5,38 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting('it_IT', null).then((_) {
-    runApp(
-      DevicePreview(
-        builder: (context) => MyApp(),
-      ),
-    );
+    // runApp(
+    //   DevicePreview(
+    //     builder: (context) => MyApp(),
+    //   ),
+    // );
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
       theme: const CupertinoThemeData(
         // brightness: Brightness.light,
-          primaryColor: CupertinoColors.activeBlue,
+        primaryColor: CupertinoColors.activeBlue,
         //   textTheme: CupertinoTextThemeData(
         //       textStyle: TextStyle(
         //     fontFamily: 'sfpro',
         //   ))
-        ),
+      ),
       home: MainNavigation(),
     );
   }
 }
 
 class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+
   @override
   _MainNavigationState createState() => _MainNavigationState();
 }
@@ -55,7 +60,6 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.chart_pie_fill),
             label: 'Home',
-            
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.money_dollar_circle_fill),

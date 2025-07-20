@@ -5,6 +5,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_project_app/model/CigaretteModel.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
 
     // Calcola il lunedì e la domenica della settimana corrente
     final monday = now.subtract(Duration(days: now.weekday - 1));
-    final sunday = monday.add(Duration(days: 6));
+    final sunday = monday.add(const Duration(days: 6));
 
     // Crea una mappa per sommare quantità per giorno
     Map<int, double> quantitiesByWeekday = {
@@ -206,7 +208,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: CupertinoSlidingSegmentedControl<String>(
                       groupValue: _selectedPeriod,
@@ -227,6 +229,47 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 20),
                   _buildChart(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Total Cigarettes",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: CupertinoColors.systemGrey,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5),
+                                ),
+                                Text("$_counter",
+                                    style: const TextStyle(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.bold,
+                                        color: CupertinoColors.label)),
+                              ]),
+                          SizedBox(
+                            height: 35,
+                            width: 35,
+                            child: CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                // Aggiungi azione per il pulsante
+                              },
+                              child: const Icon(
+                                CupertinoIcons.add,
+                                color: CupertinoColors.white,
+                                size: 20,
+                              ),
+                              color: CupertinoColors.activeBlue,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          )
+                        ]),
+                  ),
                 ],
               ),
             ),

@@ -37,7 +37,7 @@ class Headerpage extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: CupertinoColors.white)),
+                    color: CupertinoColors.label)),
           ]),
           Container(
             width: 40,
