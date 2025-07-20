@@ -5,12 +5,12 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting('it_IT', null).then((_) {
-    // runApp(
-    //   DevicePreview(
-    //     builder: (context) => MyApp(),
-    //   ),
-    // );
-    runApp(const MyApp());
+    runApp(
+      DevicePreview(
+        builder: (context) => MyApp(),
+      ),
+    );
+    // runApp(const MyApp());
   });
 }
 
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return const CupertinoApp(
       debugShowCheckedModeBanner: false,
-      theme: const CupertinoThemeData(
+      theme: CupertinoThemeData(
         // brightness: Brightness.light,
         primaryColor: CupertinoColors.activeBlue,
         //   textTheme: CupertinoTextThemeData(
@@ -45,9 +45,9 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomePage(),
-    HomePage(),
-    HomePage(),
+    const HomePage(),
+    const HomePage(),
+    const HomePage(),
   ];
 
   @override

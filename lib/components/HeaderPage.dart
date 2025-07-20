@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show DateFormat;
 
@@ -39,19 +40,10 @@ class Headerpage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: CupertinoColors.label)),
           ]),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              color: CupertinoColors.activeBlue,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              CupertinoIcons.settings,
-              color: CupertinoColors.white,
-            ),
-          ),
+          const CircleAvatar(
+            backgroundImage: AssetImage("assets/profile.jpg"),
+            
+          )
         ]));
-
   }
 }

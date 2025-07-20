@@ -3,6 +3,7 @@ import 'package:flutter_project_app/Enums/CigaretteType.dart';
 import 'package:flutter_project_app/components/HeaderPage.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_project_app/model/CigaretteModel.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -251,21 +252,29 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.bold,
                                         color: CupertinoColors.label)),
                               ]),
-                          SizedBox(
-                            height: 35,
-                            width: 35,
-                            child: CupertinoButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                // Aggiungi azione per il pulsante
-                              },
-                              child: const Icon(
-                                CupertinoIcons.add,
-                                color: CupertinoColors.white,
-                                size: 20,
-                              ),
-                              color: CupertinoColors.activeBlue,
-                              borderRadius: BorderRadius.circular(8),
+                          CupertinoButton(
+                            padding: EdgeInsets.zero, // rimuove padding extra
+                            onPressed: () {
+                              // Azione quando clicchi il bottone
+                            },
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "View All",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: CupertinoColors.systemGrey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(width: 1), // spazio tra testo e icona
+                                Icon(
+                                  CupertinoIcons.chevron_right,
+                                  size: 18,
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                              ],
                             ),
                           )
                         ]),
@@ -273,6 +282,52 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
+            const Text(
+              "Oggi",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: CupertinoColors.label),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: CupertinoColors.secondarySystemBackground
+                    .resolveFrom(context),
+              ),
+              child: const Center(
+                child: Row(
+                    
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            DottedBorder(
+              borderType: BorderType.RRect,
+              radius: const Radius.circular(12),
+              dashPattern: const [6, 4],
+              color: CupertinoColors.activeBlue,
+              strokeWidth: 1.0,
+              child: Container(
+                width: double.infinity,
+                height: 45,
+                child: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {},
+                  child: const Text(
+                    "Aggiungi",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
