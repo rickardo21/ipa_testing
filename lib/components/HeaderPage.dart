@@ -38,7 +38,7 @@ class Headerpage extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: CupertinoColors.label)),
+                    )),
           ]),
           const CircleAvatar(
             backgroundImage: AssetImage("assets/profile.jpg"),

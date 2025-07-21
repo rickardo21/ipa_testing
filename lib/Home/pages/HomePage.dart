@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_project_app/Enums/CigaretteType.dart';
 import 'package:flutter_project_app/components/HeaderPage.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_project_app/model/CigaretteModel.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -134,8 +136,8 @@ class _HomePageState extends State<HomePage> {
                     final int lastDay = spots.length;
 
                     final List<int> daysToShow = (_selectedPeriod == "This Week"
-                            ? [1, 3, 5, 7]
-                            : [1, 5, 10, 15, 20, 25, 31])
+                            ? [1, 7]
+                            : [1, spots.length])
                         .where((d) => d <= lastDay) // evita overflow
                         .toList();
 
@@ -144,7 +146,8 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.only(
                             top: 5), // sposta il testo in basso
                         child: Text(
-                          '$day',
+                          //   (_selectedPeriod == "This Week" ? "$day" : "$day ${DateFormat.MMM("it").format(DateTime.now()).toUpperCase()}"),
+                          "$day",
                           style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
@@ -191,6 +194,9 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
+  final int smokedToday = 10;
+  final int maxAllowed = 20;
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -199,132 +205,120 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(20),
           children: [
             const Headerpage(title: "Riepilogo", showDate: true),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: CupertinoColors.secondarySystemBackground
-                    .resolveFrom(context),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: CupertinoSlidingSegmentedControl<String>(
-                      groupValue: _selectedPeriod,
-                      onValueChanged: (String? value) {
-                        setState(() {
-                          _selectedPeriod = value;
-                        });
-                      },
-                      children: const <String, Widget>{
-                        "This Week": Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text("This Week")),
-                        "This Month": Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text("This Month")),
-                      },
+            CupertinoPopupSurface(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.secondarySystemBackground
+                      .resolveFrom(context),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Sigarette",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildChart(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Total Cigarettes",
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: CupertinoColors.systemGrey,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.5),
-                                ),
-                                Text("$_counter",
-                                    style: const TextStyle(
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.bold,
-                                        color: CupertinoColors.label)),
-                              ]),
-                          CupertinoButton(
-                            padding: EdgeInsets.zero, // rimuove padding extra
-                            onPressed: () {
-                              // Azione quando clicchi il bottone
-                            },
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "View All",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: CupertinoColors.systemGrey,
-                                    fontWeight: FontWeight.w500,
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "$smokedToday fumate",
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        const double spacing = 2.0;
+                        final totalSpacing = spacing * (maxAllowed - 1);
+                        final availableWidth =
+                            constraints.maxWidth - totalSpacing;
+                        final size = availableWidth / maxAllowed;
+
+                        final double barHeight = 8;
+                        final double barVerticalCenter =
+                            size / 2 - barHeight / 2;
+
+                        final double barWidth =
+                            (smokedToday / maxAllowed) * constraints.maxWidth;
+
+                        return SizedBox(
+                          height: size,
+                          child: Stack(
+                            children: [
+                              // Row dei cerchi dietro la barra
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: List.generate(maxAllowed, (index) {
+                                  Color color;
+                                  if (index < smokedToday) {
+                                    color = CupertinoColors.activeGreen;
+                                  } else {
+                                    color = CupertinoColors.inactiveGray;
+                                  }
+
+                                  return Container(
+                                    width: size,
+                                    height: size,
+                                    margin: EdgeInsets.only(
+                                        right: index != maxAllowed - 1
+                                            ? spacing
+                                            : 0),
+                                    decoration: BoxDecoration(
+                                      color: color,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  );
+                                }),
+                              ),
+                              // Barra luminosa davanti ai cerchi
+                              Positioned(
+                                left: 0,
+                                top: barVerticalCenter,
+                                child: Container(
+                                  width: barWidth,
+                                  height: barHeight,
+                                  decoration: BoxDecoration(
+                                    color: CupertinoColors.activeGreen
+                                        .withOpacity(0.7),
+                                    borderRadius:
+                                        BorderRadius.circular(barHeight / 2),
                                   ),
                                 ),
-                                SizedBox(width: 1), // spazio tra testo e icona
-                                Icon(
-                                  CupertinoIcons.chevron_right,
-                                  size: 18,
-                                  color: CupertinoColors.systemGrey,
-                                ),
-                              ],
-                            ),
-                          )
-                        ]),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Oggi",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: CupertinoColors.label),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: CupertinoColors.secondarySystemBackground
-                    .resolveFrom(context),
-              ),
-              child: const Center(
-                child: Row(
-                    
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            DottedBorder(
-              borderType: BorderType.RRect,
-              radius: const Radius.circular(12),
-              dashPattern: const [6, 4],
-              color: CupertinoColors.activeBlue,
-              strokeWidth: 1.0,
-              child: Container(
-                width: double.infinity,
-                height: 45,
-                child: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  child: const Text(
-                    "Aggiungi",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "0",
+                          style: TextStyle(
+                            color: CupertinoColors.systemGrey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text('$smokedToday',
+                            style: const TextStyle(
+                                color: CupertinoColors.systemGrey,
+                                fontSize: 12)),
+                        const Text('20',
+                            style: TextStyle(
+                                color: CupertinoColors.systemGrey,
+                                fontSize: 12)),
+                      ],
+                    )
+                  ],
                 ),
               ),
             )

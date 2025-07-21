@@ -5,12 +5,12 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting('it_IT', null).then((_) {
-    runApp(
-      DevicePreview(
-        builder: (context) => MyApp(),
-      ),
-    );
-    // runApp(const MyApp());
+    // runApp(
+    //   DevicePreview(
+    //     builder: (context) => MyApp(),
+    //   ),
+    // );
+    runApp(const MyApp());
   });
 }
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
         // brightness: Brightness.light,
-        primaryColor: CupertinoColors.activeBlue,
+        primaryColor: CupertinoColors.systemGreen,
         //   textTheme: CupertinoTextThemeData(
         //       textStyle: TextStyle(
         //     fontFamily: 'sfpro',
@@ -48,6 +48,8 @@ class _MainNavigationState extends State<MainNavigation> {
     const HomePage(),
     const HomePage(),
     const HomePage(),
+    const HomePage(),
+    const HomePage(),
   ];
 
   @override
@@ -58,19 +60,27 @@ class _MainNavigationState extends State<MainNavigation> {
         onTap: (index) => setState(() => _selectedIndex = index),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chart_pie_fill),
+            icon: Icon(CupertinoIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.money_dollar_circle_fill),
+            icon: Icon(CupertinoIcons.money_dollar),
             label: 'Spending',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.plus_app_fill),
+            label: 'Add',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.rosette),
+            label: 'Achievement',
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.settings),
             label: 'Settings',
           ),
         ],
-        iconSize: 25.0,
+        // iconSize: 25.0,
       ),
       tabBuilder: (BuildContext context, int index) {
         return CupertinoTabView(
