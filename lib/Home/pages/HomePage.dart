@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  final int smokedToday = 10;
+  final int smokedToday = 15;
   final int maxAllowed = 20;
 
   @override
@@ -250,15 +250,29 @@ class _HomePageState extends State<HomePage> {
                           height: size,
                           child: Stack(
                             children: [
+                              Positioned(
+                                left: -2,
+                                top: -2,
+                                child: Container(
+                                  width: barWidth + 4,
+                                  height: size + 4,
+                                  decoration: BoxDecoration(
+                                    color: CupertinoColors.activeGreen,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                ),
+                              ),
                               // Row dei cerchi dietro la barra
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: List.generate(maxAllowed, (index) {
                                   Color color;
                                   if (index < smokedToday) {
-                                    color = CupertinoColors.activeGreen;
+                                    color =
+                                        const Color.fromARGB(255, 34, 81, 45);
                                   } else {
-                                    color = CupertinoColors.inactiveGray;
+                                    color =
+                                        const Color.fromARGB(255, 131, 91, 36);
                                   }
 
                                   return Container(
@@ -276,20 +290,6 @@ class _HomePageState extends State<HomePage> {
                                 }),
                               ),
                               // Barra luminosa davanti ai cerchi
-                              Positioned(
-                                left: 0,
-                                top: barVerticalCenter,
-                                child: Container(
-                                  width: barWidth,
-                                  height: barHeight,
-                                  decoration: BoxDecoration(
-                                    color: CupertinoColors.activeGreen
-                                        .withOpacity(0.7),
-                                    borderRadius:
-                                        BorderRadius.circular(barHeight / 2),
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         );

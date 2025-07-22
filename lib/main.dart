@@ -5,12 +5,12 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting('it_IT', null).then((_) {
-    // runApp(
-    //   DevicePreview(
-    //     builder: (context) => MyApp(),
-    //   ),
-    // );
-    runApp(const MyApp());
+    runApp(
+      DevicePreview(
+        builder: (context) => MyApp(),
+      ),
+    );
+    // runApp(const MyApp());
   });
 }
 
